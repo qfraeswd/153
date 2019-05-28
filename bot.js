@@ -18,11 +18,11 @@ client.on('warn', console.warn);
 
 client.on('error', console.error);
 
-client.on('ready', () => console.log('I am ready!'));
+client.on('ready', () => console.log('أنا مستعد!'));
 
-client.on('disconnect', () => console.log('I disconnected!'));
+client.on('disconnect', () => console.log('أنا غير متصل'));
 
-client.on('reconnecting', () => console.log('I am disconnecting!'));
+client.on('reconnecting', () => console.log('أنا قطع الاتصال!'));
 
 client.on('voiceStateUpdate', (oldMember, newMember) => {
   let newUserChannel = newMember.voiceChannel
@@ -43,10 +43,10 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
               if(client.guilds.get(oldMember.guild.id).voiceConnection.channel.id === oldUserChannel.id){
                     if(oldUserChannel.members.size < 2){
                         serverQueue.songs = [];
-                        serverQueue.connection.dispatcher.end('No members left in the channel!')
+                        serverQueue.connection.dispatcher.end('تم خارج بسبيب عدام يوجد حد فى الروم صوتى')
                     }    
               }else{
-                  return console.log('not in the same voice channel');
+                  return console.log('انت ليس في نفس القناة الصوتية');
               }
           }else{
               return undefined;
@@ -70,20 +70,20 @@ client.on('message', async msg => { // eslint-disable-line
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel){
             var embedplay1 = new Discord.RichEmbed()
-                .setTitle(`Please Connect To A Voice Channel To Play Something!`)
+                .setTitle(`يرجى الاتصال بقناة صوتية تشغيل الاغانى بعض ما`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedplay1);
         }
         const permissions = voiceChannel.permissionsFor(msg.client.user);
         if(!permissions.has('CONNECT')){
             var embedplay2 = new Discord.RichEmbed()
-                .setTitle(`I lack the right CONNECT to connect in these Voice Channel!`)
+                .setTitle(`أفتقر إلى الاتصال الصحيح للاتصال في هذه القناة الصوتية!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedplay2);
         }
         if (!permissions.has('SPEAK')){
             var embedplay3 = new Discord.RichEmbed()
-                .setTitle(`I do not have the right to SPEAK to connect in these Voice Channel!`)
+                .setTitle(`ليس لدي الحق في التحدث إلى هذه القناة الصوتية!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedplay3);
         }
@@ -98,7 +98,7 @@ client.on('message', async msg => { // eslint-disable-line
                 await handleVideo(video2, msg, voiceChannel, true);
             }
             var embedplay4 = new Discord.RichEmbed()
-                .setTitle(`Playlist: ${playlist.title} queued!`)
+                .setTitle(`قائمة التشغيل: ${playlist.title} في قائمة الانتظار!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedplay4);
         }else{
@@ -112,7 +112,6 @@ client.on('message', async msg => { // eslint-disable-line
                         .setTitle(`Song Play list*`)
                         .setDescription(`
 ${videos.map(video2 => `${++index}- ${video2.title}`).join('\n')}
-
 Please enter a number between 1-10 on,a Song select!`)
                 .setColor(['GREEN'])
                     msg.channel.sendEmbed(embedqueue5);
@@ -126,7 +125,7 @@ Please enter a number between 1-10 on,a Song select!`)
                     }catch(err){
                         console.error(err);
                         var embedplay6 = new Discord.RichEmbed()
-                            .setTitle(`no or invalid number was entered. Demolition of the song selection!`)
+                            .setTitle(`لا أو تم إدخال رقم غير صالح. هدم اختيار الأغنية!`)
                             .setColor(['GREEN'])
                         return msg.channel.sendEmbed(embedplay6);
                     }
@@ -135,7 +134,7 @@ Please enter a number between 1-10 on,a Song select!`)
                 }catch(err){
                     console.error(err);
                     var embedplay7 = new Discord.RichEmbed()
-                        .setTitle(`I could find no video!`)
+                        .setTitle(`لم أجد أي فيديو!`)
                         .setColor(['GREEN'])
                     return msg.channel.sendEmbed(embedplay7);
                 }
@@ -146,19 +145,19 @@ Please enter a number between 1-10 on,a Song select!`)
     } else if(msg.content.startsWith(`${PREFIX}skip`)) {
         if(!msg.member.voiceChannel){
            var embedskip1 = new Discord.RichEmbed()
-                .setTitle(`You are in not in the Voice Channel!`)
+                .setTitle(`أنت لست في القناة الصوتية!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedskip1); 
         }
         if(!serverQueue){
             var embedskip2 = new Discord.RichEmbed()
-                .setTitle(`There is nothing to Skip!`)
+                .setTitle(`لا يوجد شيء لتخطي!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedskip2);
         }
-        serverQueue.connection.dispatcher.end('Skip command has been used!');
+        serverQueue.connection.dispatcher.end('تخطي الأمر قد استخدم!');
         var embedskip3 = new Discord.RichEmbed()
-            .setTitle(`⏩Skipped👍`)
+            .setTitle(`⏩ تخطي 👍`)
             .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedskip3);
     }   
@@ -166,27 +165,27 @@ Please enter a number between 1-10 on,a Song select!`)
      else if (msg.content.startsWith(`${PREFIX}leave`)){
         if(!msg.member.voiceChannel){
            var embedstop1 = new Discord.RichEmbed()
-                .setTitle(`you're not in the voice channel!`)
+                .setTitle(`أنت لست في القناة الصوتية!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedstop1); 
         }
         if(!serverQueue){
             var embedstop2 = new Discord.RichEmbed()
-                .setTitle(`There is nothing to leave!`)
+                .setTitle(`ليس هناك شيء لترك!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedstop2);
         }
         serverQueue.songs = [];
-        serverQueue.connection.dispatcher.end('Stop command has been used!');
+        serverQueue.connection.dispatcher.end('تم استخدام أمر إيقاف!');
         var embedstop3 = new Discord.RichEmbed()
-            .setTitle(`⏩Skipped👍`)
+            .setTitle(`⏩ تخطي 👍`)
             .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedstop3);
     }
     else if(msg.content.startsWith(`${PREFIX}song`)){
         if(!serverQueue){
             var embedsong1 = new Discord.RichEmbed()
-                .setTitle(`It does nothing at the moment!`)
+                .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedsong1);
                  }
@@ -194,9 +193,9 @@ Please enter a number between 1-10 on,a Song select!`)
                 .setTitle(`${serverQueue.songs[0].title}`)
                 .setThumbnail(serverQueue.songs[0].thumbnail)
                 .setDescription(`
-Von: ${serverQueue.songs[0].channel}
-Dauer: ${serverQueue.songs[0].duration}
-Link: ${serverQueue.songs[0].url}
+فون: ${serverQueue.songs[0].channel}
+داور: ${serverQueue.songs[0].duration}
+حلقة الوصل: ${serverQueue.songs[0].url}
 `)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedsong2); 
@@ -204,12 +203,12 @@ Link: ${serverQueue.songs[0].url}
     else if(msg.content.startsWith(`${PREFIX}volume`)){
         if(!serverQueue){
             var embedvolume1 = new Discord.RichEmbed()
-                .setTitle(`It does nothing at the moment!`)
+                .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedvolume1);}
         if(!args[1]){
              var embedvolume2 = new Discord.RichEmbed()
-                .setTitle(`The current volume is: ${serverQueue.volume}`)
+                .setTitle(`حجم الحالي هو : ${serverQueue.volume}`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedvolume2);
         }
@@ -219,12 +218,12 @@ Link: ${serverQueue.songs[0].url}
         serverQueue.connection.dispatcher.setVolume(args[1] / 2000);
         serverQueue.mute = false;
         var embedvolume3 = new Discord.RichEmbed()
-                .setTitle(`The volume is on ${args[1]} set`)
+                .setTitle(`مستوى الصوت في وضع التشغيل ${args[1]} جلس`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedvolume3);
         } else{
             var embedvolume4 = new Discord.RichEmbed()
-                .setTitle(`Please enter a number >0 on!`)
+                .setTitle(`الرجاء إدخال رقم`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedvolume4);
         }
@@ -232,15 +231,14 @@ Link: ${serverQueue.songs[0].url}
     else if(msg.content.startsWith(`${PREFIX}queue`)){
         if(!serverQueue){
             var embedqueue1 = new Discord.RichEmbed()
-                .setTitle(`It does nothing at the moment!`)
+                .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedqueue1);
         }
         var embedqueue2 = new Discord.RichEmbed()
-                .setTitle(`Song Queue`)
+                .setTitle(`قائمة انتظار الأغنية`)
                 .setDescription(`
 ${serverQueue.songs.map(song => `- ${song.title}`).join('\n')}
-
 Playing: ${serverQueue.songs[0].title}`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedqueue2);
@@ -250,12 +248,12 @@ Playing: ${serverQueue.songs[0].title}`)
         serverQueue.playing = false;
         serverQueue.connection.dispatcher.pause();
         var embedpause1 = new Discord.RichEmbed()
-                .setTitle(`The song is stopped!`)
+                .setTitle(`تم إيقاف الأغنية!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedpause1);
         }
         var embedpause2 = new Discord.RichEmbed()
-            .setTitle(`It does nothing at the moment!`)
+            .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
             .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedpause2);
     }
@@ -264,25 +262,25 @@ Playing: ${serverQueue.songs[0].title}`)
         serverQueue.playing = true;
         serverQueue.connection.dispatcher.resume();
         var embedresume1 = new Discord.RichEmbed()
-                .setTitle(`The song keeps playing on!`)
+                .setTitle(`الأغنية تستمر في تشغيل!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedresume1);           
         }
         var embedresume2 = new Discord.RichEmbed()
-            .setTitle(`It does nothing at the moment!`)
+            .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
             .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedresume2);
     }   
     else if(msg.content.startsWith(`${PREFIX}mute`)){
         if(!serverQueue){
         var embedmute1 = new Discord.RichEmbed()
-                .setTitle(`It does nothing at the moment!`)
+                .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedmute1);     
         }
         if(serverQueue.mute){
         var embedmute2 = new Discord.RichEmbed()
-                .setTitle(`The music Bot is already muted!`)
+                .setTitle(`بوت الموسيقى صامتة بالفعل!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedmute2);     
         }
@@ -290,7 +288,7 @@ Playing: ${serverQueue.songs[0].title}`)
             serverQueue.mute = true;
             serverQueue.connection.dispatcher.setVolume(0 / 2000);
             var embedmute3 = new Discord.RichEmbed()
-                .setTitle(`The music Bot was muted!`)
+                .setTitle(`كان بوت الموسيقى صامتة!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedmute3);
         }
@@ -298,13 +296,13 @@ Playing: ${serverQueue.songs[0].title}`)
     else if(msg.content.startsWith(`${PREFIX}unmute`)){
         if(!serverQueue){
             var embedunmute1 = new Discord.RichEmbed()
-                .setTitle(`It does nothing at the moment!`)
+                .setTitle(`لا يفعل شيئًا في الوقت الحالي!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedunmute1);     
         }
         if(!serverQueue.mute){
             var embedunmute2 = new Discord.RichEmbed()
-                .setTitle(`The Music Bot is already unmuted!`)
+                .setTitle(`الموسيقى بوت غير صامت بالفعل!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedunmute2);     
         }   
@@ -312,7 +310,7 @@ Playing: ${serverQueue.songs[0].title}`)
             serverQueue.mute = false;
             serverQueue.connection.dispatcher.setVolume(serverQueue.volume / 2000);
             var embedunmute3 = new Discord.RichEmbed()
-                .setTitle(`The Music Bot has been unmuted!`)
+                .setTitle(`وقد الموسيقى بوت تم كتم الصوت!`)
                 .setColor(['GREEN'])
         return msg.channel.sendEmbed(embedunmute3);
         }
@@ -354,7 +352,7 @@ async function handleVideo(video, msg, voiceChannel, playlist=false){
             console.log(error);
             queue.delete(msg.guild.id);
             var embedfunc1 = new Discord.RichEmbed()
-                .setTitle(`Bot could not VoiceChannel the join!`)
+                .setTitle(`بوت لا ستطع دخول الغرف الصوتى..!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedfunc1);
         }
@@ -364,7 +362,7 @@ async function handleVideo(video, msg, voiceChannel, playlist=false){
         if(playlist) return undefined;
         else{
             var embedfunc2 = new Discord.RichEmbed()
-                .setTitle(`${song.title} queued!`)
+                .setTitle(`${song.title} في قائمة الانتظار!`)
                 .setColor(['GREEN'])
             return msg.channel.sendEmbed(embedfunc2);
         }
@@ -384,7 +382,7 @@ function play(guild, song){
     
     const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
             .on('end', reason => {
-                if(reason === 'Stream is not generating quickly enough.') console.log('Song ended');
+                if(reason === 'تيار لا يولد بسرعة كافية.') console.log('انتهت الأغنية');
                 else console.log(reason);
                 serverQueue.songs.shift();
                 setTimeout(() => {
@@ -396,13 +394,13 @@ function play(guild, song){
     dispatcher.setVolume(serverQueue.volume / 2000);
     
     var messagefunction1 = new Discord.RichEmbed()
-                .setTitle(`Playing 🎶 ${song.title} -now`)
+                .setTitle(`تلعب 🎶 ${song.title} ${PREFIX}now`)
                 .setColor(['GREEN'])
             return serverQueue.textChannel.sendEmbed(messagefunction1);
 }
 
 client.on('message', message => {
-	var prefix = "-"
+	var prefix = "1"
     var argresult = message.content.split(` `).slice(1).join(' ');
       if (!developers.includes(message.author.id)) return;
  
@@ -440,46 +438,37 @@ client.on('message', message => {
 	var prefix = "3"
 if (message.content.startsWith(prefix + 'help')) { 
     let pages = [`
+:headphones: | ***__Music Commands__*** | :headphones:
 
-:earth_africa: Music Commands :earth_africa: 
+**
+:headphones: | ${PREFIX}play    ➾  لكي تشغل اغناي او رابط فيديو
+:headphones: | ${PREFIX}skip    ➾  لك تسوي تخطي لي الاغاني
+:headphones: | ${PREFIX}song    ➾  لك تري ما هي الغاني  التي تعمل
+:headphones: | ${PREFIX}leave   ➾  لك يخروج البوت خرج الشانل
+:headphones: | ${PREFIX}queue   ➾  لك تري قائمة الاغاني بعد الغاني التي تعمال حالي
+:headphones: | ${PREFIX}volume  ➾  لك تري مستوي الصوت
+:headphones: | ${PREFIX}volume  ➾  (لك تغير مستوي الصوت
+:headphones: | ${PREFIX}stop    ➾  لك توقف الغاني موقت)
+:headphones: | ${PREFIX}run     ➾  لك تكمل الغاني الموقف
+:headphones: | ${PREFIX}mute    ➾  لك تسوي ميوت لي الوت
+:headphones: | ${PREFIX}unmute  ➾  لك تفوك الميوت عن البوت
+**
 
-❖ -play ➾  لكي تشغل اغناي او رابط فيديو
-
-❖ -skip ➾  لك تسوي تخطي لي الاغاني
-
-❖ -song ➾  لك تري ما هي الغاني  التي تعمل
-
-❖ -leave ➾  لك يخروج البوت خرج الشانل
-
-❖ -queue ➾  لك تري قائمة الاغاني بعد الغاني التي تعمال حالي
-
-❖ -volume ➾  لك تري مستوي الصوت
-
-❖ -volume ➾  (لك تغير مستوي الصوت
-
-❖ -stop ➾  لك توقف الغاني موقت)
-
-❖ -run ➾  لك تكمل الغاني الموقف
-
-❖ -mute ➾  لك تسوي ميوت لي الوت
- 
-❖ -unmute ➾  لك تفوك الميوت عن البوت
-
-
-Click On :arrow_forward: To Go To Bot Info
+**__ضغط على ركشن [ ▶ ]الى ذهب الى الصفحه التالى__**
    `
 ,`
+** رابط قناة ** . ***EL KABEER PUBG*** : https://www.youtube.com/channel/UC-gINwNmFrp_6TNuGTgzJvA 
 
-  بوت اغانى مطتوير
- 24 ساعه
- ممنوع تكرار اوامر
+** لا تسنى شتراك فى القناة و تفعل الجراس :bellhop:  **
 
-   `]
+** وضغط على زار الايك :thumbsup:  **
+
+** تشجع النا وستمرا فى نشر اكثر نشاالله ** `]
     let page = 1;
 
     let embed = new Discord.RichEmbed()
     .setColor('RANDOM')
-    .setFooter(`Page ${page} of ${pages.length}`)
+    .setFooter(`صفحة ${page} من ${pages.length}`)
     .setDescription(pages[page-1])
 
     message.author.sendEmbed(embed).then(msg => {
@@ -514,6 +503,72 @@ Click On :arrow_forward: To Go To Bot Info
         })
     })
     }
+});
+
+client.on('message', msg => {
+    if (msg.content === '3help') {
+      msg.reply(' | **تم رسال اوامر بوت اغانى فى الخاص** | :incoming_envelope:');
+    }
+  });
+  
+  client.on('message',async message => { 
+    var room;
+    var chat;
+    var duration;
+    var gMembers;
+    var filter = m => m.author.id === message.author.id;
+    if(message.content.startsWith("3Me")) { 
+        //return message.channel.send(':heavy_multiplication_x:| **هذا الامر معطل حاليا.. ``حاول في وقت لاحق``**'); ///By KillerFox
+        if(!message.guild.member(message.author).hasPermission('MANAGE_GUILD')) return message.channel.send(':heavy_multiplication_x:| **يجب أن يكون لديك خاصية التعديل على السيرفر**');
+        message.channel.send(`:eight_pointed_black_star:| **منشن الروم الذي تريد به ارسال الرساله**`).then(msgg => { ///By KillerFox
+            message.channel.awaitMessages(filter, {
+                max: 1,
+                time: 20000,
+                errors: ['time']
+            }).then(collected => { 
+                let room = message.guild.channels.find('name', collected.first().content);
+                if(!room) return message.channel.send(':heavy_multiplication_x:| **لم اقدر على ايجاد الروم المطلوب**'); ///By KillerFox
+                room = collected.first().content;
+                collected.first().delete();
+                        msgg.edit(':eight_pointed_black_star:| ** اكتب الرساله الي تبيها **').then(msg => { ///By KillerFox
+                            message.channel.awaitMessages(filter, { 
+                                max: 1,
+                                time: 20000,
+                                errors: ['time'] 
+                            }).then(collected => {
+                                chat = collected.first().content;
+                                collected.first().delete();
+                                try {
+                                    let Embed = new Discord.RichEmbed()
+                                        .setAuthor(message.guild.name, message.guild.iconURL)
+                                        .setTitle(`إرسال بواسطة `+'``'+`${message.author.username}`+'``')
+                                        .setDescription(chat)
+                                        .setFooter(message.author.username, message.author.avatarURL);
+                                    message.guild.channels.find('name', room).send(Embed).then(m => {
+                                        let re = m.react('🎉');
+                                        setTimeout(() => { 
+                                            let users = m.reactions.get("🎉").users;
+                                            let list = users.array().filter(u => u.id !== m.author.id);
+                                            let gFilter = list[Math.floor(Math.random() * list.length) + 0];
+                                            if(users.size === 1) gFilter = '**لم يتم التحديد**';
+                                            let Embed = new Discord.RichEmbed()
+                                                .setAuthor(message.author.username, message.author.avatarURL)
+                                                .setTitle(chat)
+                                                .addField(`ping`+`[${Date.now() - message.createdTimestamp}]`)
+                                                .setFooter(message.guild.name, message.guild.iconURL);
+                                            m.edit(Embed);
+                                        },duration); 
+                                    });
+                                    msgg.edit(`:heavy_check_mark:| تم ارسال الرساله في الروم`); 
+                                } catch(e) {
+                                    msgg.edit(`:heavy_multiplication_x:| **لم اقدر على ارسال الرسالة**`); 
+                                    console.log(e);
+                                }
+                            });
+                        });
+                    });
+                });
+  }
 });
 
 client.login(process.env.BOT_TOKEN);
