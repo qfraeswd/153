@@ -470,7 +470,9 @@ Click On :arrow_forward: To Go To Bot Info
    `
 ,`
 
-  There is Commands Just For 〖D̷o̷̶Ḿa̶ |̷ B̷O̷Y̷〗#1362| Bot By: 〖D̷o̷̶Ḿa̶ |̷ B̷O̷Y̷〗#1362
+  بوت اغانى مطتوير
+ 24 ساعه
+ ممنوع تكرار اوامر
 
    `]
     let page = 1;
