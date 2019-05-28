@@ -416,7 +416,7 @@ client.on('message', message => {
     client.user.setGame(argresult, "https://www.twitch.tv/omgdoma");
      message.channel.send(` ☑ Client Activity Now Is : \`Streaming ${argresult} \` `)
   } else 
-  if (message.content.startsWith(prefix + 'pl')) {
+  if (message.content.startsWith(prefix + 'Me')) {
   client.user.setActivity(argresult , {type:'Playing'});
       message.channel.send(` ☑ Client Activity Now Is : \`Playing ${argresult} \` `)
   }
