@@ -5,7 +5,7 @@ const YouTube = require('simple-youtube-api');
 const ytdl = require('ytdl-core');
 const devs = ['492380514309636114']
 const developers = ['492380514309636114'];
-const prefix = "-"
+const prefix = "3"
 
 const client = new Client({ disableEveryone: true});
 
