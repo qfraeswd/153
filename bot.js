@@ -457,13 +457,7 @@ if (message.content.startsWith(prefix + 'help')) {
 **__ضغط على ركشن [ ▶ ]الى ذهب الى الصفحه التالى__**
    `
 ,`
-** رابط قناة ** . ***EL KABEER PUBG*** : https://www.youtube.com/channel/UC-gINwNmFrp_6TNuGTgzJvA 
-
-** لا تسنى شتراك فى القناة و تفعل الجراس :bellhop:  **
-
-** وضغط على زار الايك :thumbsup:  **
-
-** تشجع النا وستمرا فى نشر اكثر نشاالله ** `]
+*** ~~نـــتــظـــار قـــريـــــب نـــشـــاء...~~ ***`]
     let page = 1;
 
     let embed = new Discord.RichEmbed()
